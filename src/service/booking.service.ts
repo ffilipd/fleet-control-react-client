@@ -1,17 +1,15 @@
 import axios from "axios";
 import { Booking, BookingSearchParams, NewBooking } from "../interfaces";
 import authHeader from "./auth-header";
-import { useNavigate } from "react-router-dom";
 
 const base_URL: string = process.env.REACT_APP_API_URL || '';
 const API_ENDPOINTS = {
     BOOKINGS: '/bookings',
 }
 
-const HandleUnauthorized = () => {
-    const navigate = useNavigate();
+const handleUnauthorized = () => {
     localStorage.clear();
-    navigate('/login');
+    window.location.href = '/login';
 };
 
 export const getBookings = async (_params?: BookingSearchParams): Promise<Booking[]> => {
@@ -21,7 +19,7 @@ export const getBookings = async (_params?: BookingSearchParams): Promise<Bookin
         const res = await axios.get(URL, { params: params, headers: authHeader() });
         return res.data;
     } catch (error: any) {
-        if (error.response && error.response.status === 401) HandleUnauthorized();
+        if (error.response && error.response.status === 401) handleUnauthorized();
         throw new Error('error getting bookings' + error);
     }
 }
@@ -32,7 +30,7 @@ export const addBooking = async (newBooking: NewBooking): Promise<any> => {
         const res = await axios.post(URL, { ...newBooking }, { headers: authHeader() });
         return res.data.message;
     } catch (error: any) {
-        if (error.response && error.response.status === 401) HandleUnauthorized();
+        if (error.response && error.response.status === 401) handleUnauthorized();
         return ('Error adding new booking: ' + error);
     }
 }
@@ -43,7 +41,7 @@ export const deleteBooking = async (bookingId: string): Promise<void> => {
         const res = await axios.delete(`${URL}/${bookingId}`, { headers: authHeader() });
         return res.data.message;
     } catch (error: any) {
-        if (error.response && error.response.status === 401) HandleUnauthorized();
+        if (error.response && error.response.status === 401) handleUnauthorized();
         throw new Error('Error deleting booking: ' + error);
     }
 }
