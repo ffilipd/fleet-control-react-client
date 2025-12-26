@@ -2,7 +2,6 @@ import axios from "axios";
 import authHeader from "./auth-header";
 import { Equipment, EquipmentFilterResponse, EquipmentIdSearchParams, EquipmentSearchParams, EquipmentTree, NewEquipment } from "../interfaces";
 import { useUser } from "../UserContext";
-import { useNavigate } from "react-router-dom";
 
 const base_URL: string = process.env.REACT_APP_API_URL || '';
 const API_ENDPONTS = {
@@ -12,10 +11,10 @@ const API_ENDPONTS = {
     ID: '/equipment/id',
 }
 
-const HandleUnauthorized = () => {
-    const navigate = useNavigate();
-    localStorage.clear();
-    navigate('/login');
+const handleUnauthorized = () => {
+    // localStorage.clear();
+    // window.location.href = '/login';
+    console.log('401 error');
 };
 
 export async function getEquipment(_params?: EquipmentSearchParams): Promise<Equipment[]> {
@@ -25,7 +24,7 @@ export async function getEquipment(_params?: EquipmentSearchParams): Promise<Equ
         const res = await axios.get(URL, { headers: authHeader() });
         return res.data;
     } catch (error: any) {
-        if (error.response && error.response.status === 401) HandleUnauthorized();
+        if (error.response && error.response.status === 401) handleUnauthorized();
         throw new Error('Error getting equipment' + error);
     }
 };
@@ -36,7 +35,7 @@ export async function getEquipmentTree(userId: string): Promise<EquipmentTree> {
         const res = await axios.get(URL, { params: { userId: userId }, headers: authHeader() });
         return res.data;
     } catch (error: any) {
-        if (error.response && error.response.status === 401) HandleUnauthorized();
+        if (error.response && error.response.status === 401) handleUnauthorized();
         return error.response.data;
     }
 };
@@ -48,7 +47,7 @@ export async function getEquipmentFilters(_params?: EquipmentSearchParams): Prom
         const res = await axios.get(URL, { params: params, headers: authHeader() });
         return res.data;
     } catch (error: any) {
-        if (error.response && error.response.status === 401) HandleUnauthorized();
+        if (error.response && error.response.status === 401) handleUnauthorized();
         return error.response.data;
     }
 };
@@ -59,7 +58,7 @@ export async function getEquipmentId(equipment?: EquipmentIdSearchParams): Promi
         const res = await axios.get(URL, { params: equipment, headers: authHeader() });
         return res.data;
     } catch (error: any) {
-        if (error.response && error.response.status === 401) HandleUnauthorized();
+        if (error.response && error.response.status === 401) handleUnauthorized();
         throw new Error('error getting equipment id' + error);
     }
 };
@@ -70,7 +69,7 @@ export async function addNewEquipment(NewEquipment: NewEquipment): Promise<any> 
         const res = await axios.post(URL, { ...NewEquipment }, { headers: authHeader() });
         return res.data.message;
     } catch (error: any) {
-        if (error.response && error.response.status === 401) HandleUnauthorized();
+        if (error.response && error.response.status === 401) handleUnauthorized();
         throw new Error('Error adding new equipment: ' + error);
     }
 };
@@ -81,7 +80,7 @@ export async function removeEquipment(equipmentId: string): Promise<void> {
         const res = await axios.delete(`${URL}/${equipmentId}`, { headers: authHeader() });
         return res.data.message;
     } catch (error: any) {
-        if (error.response && error.response.status === 401) HandleUnauthorized();
+        if (error.response && error.response.status === 401) handleUnauthorized();
         throw new Error('Error removing equipment: ' + error);
     }
 }
