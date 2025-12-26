@@ -16,7 +16,7 @@ function App() {
   const { user } = useUser();
 
   return (
-    <BrowserRouter basename="/fleet-control-react-client">
+    <BrowserRouter>
       <Routes>
         <Route path="/" element={<Body />}>
           {user ? (
