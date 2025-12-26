@@ -12,9 +12,8 @@ const API_ENDPONTS = {
 }
 
 const handleUnauthorized = () => {
-    // localStorage.clear();
-    // window.location.href = '/login';
-    console.log('401 error');
+    localStorage.clear();
+    window.location.href = '#/login';
 };
 
 export async function getEquipment(_params?: EquipmentSearchParams): Promise<Equipment[]> {
