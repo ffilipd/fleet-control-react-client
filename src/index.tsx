@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 // import reportWebVitals from "./reportWebVitals";
-import { BrowserRouter as Router } from "react-router-dom";
+import { HashRouter } from "react-router-dom";
 import { I18nextProvider } from "react-i18next";
 import i18n from "./i18next";
 import { GoogleOAuthProvider } from "@react-oauth/google";
@@ -22,7 +22,7 @@ root.render(
     <UserProvider>
       <EquipmentProvider>
         <LanguageProvider>
-          <Router>
+          <HashRouter>
             <I18nextProvider i18n={i18n} defaultNS={"translation"}>
               {/* <React.StrictMode> */}
               <AlertProvider>
@@ -30,7 +30,7 @@ root.render(
               </AlertProvider>
               {/* </React.StrictMode> */}
             </I18nextProvider>
-          </Router>
+          </HashRouter>
         </LanguageProvider>
       </EquipmentProvider>
     </UserProvider>
