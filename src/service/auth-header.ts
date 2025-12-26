@@ -1,18 +1,22 @@
+import { useNavigate } from "react-router-dom";
+
+
 export default function authHeader() {
     let user = JSON.parse(localStorage.getItem('user') as string);
 
     if (user && user.accessToken) {
-        resetInactivityTimeout();
+        ResetInactivityTimeout();
         return { 'x-access-token': user.accessToken };       // for Node.js Express back-end
     } else {
         return {};
     }
 }
 
-function resetInactivityTimeout() {
+function ResetInactivityTimeout() {
+    const navigate = useNavigate();
     clearTimeout((window as any).inactivityTimeout);
     (window as any).inactivityTimeout = setTimeout(() => {
         localStorage.clear();
-        window.location.href = '/login';
+        navigate('login');
     }, 3600000); // 1 hour in milliseconds
 }

@@ -1,6 +1,7 @@
 import axios from "axios";
 import { NewReport, Report, ReportSearchParams } from "../interfaces";
 import authHeader from "./auth-header";
+import { useNavigate } from "react-router-dom";
 
 const base_URL: string = process.env.REACT_APP_API_URL || '';
 const API_ENDPONTS = {
@@ -8,9 +9,10 @@ const API_ENDPONTS = {
     DAMAGE_TYPES: '/report/damage-types',
 }
 
-const handleUnauthorized = () => {
+const HandleUnauthorized = () => {
+    const navigate = useNavigate();
     localStorage.clear();
-    window.location.href = '/login';
+    navigate('/login');
 };
 
 export const getReports = async (_params?: ReportSearchParams): Promise<Report[]> => {
@@ -20,7 +22,7 @@ export const getReports = async (_params?: ReportSearchParams): Promise<Report[]
         const res = await axios.get(URL, { params: params, headers: authHeader() });
         return res.data;
     } catch (error: any) {
-        if (error.response && error.response.status === 401) handleUnauthorized();
+        if (error.response && error.response.status === 401) HandleUnauthorized();
         throw new Error('error getting bookings' + error);
     }
 }
@@ -31,7 +33,7 @@ export const getReportById = async (id: string): Promise<Report[]> => {
         const res = await axios.get(`${URL}/${id}`, { headers: authHeader() });
         return res.data;
     } catch (error: any) {
-        if (error.response && error.response.status === 401) handleUnauthorized();
+        if (error.response && error.response.status === 401) HandleUnauthorized();
         throw new Error('error getting bookings' + error);
     }
 }
@@ -41,7 +43,7 @@ export const addReport = async (newReport: NewReport): Promise<void> => {
     try {
         await axios.post(URL, { ...newReport }, { headers: authHeader() });
     } catch (error: any) {
-        if (error.response && error.response.status === 401) handleUnauthorized();
+        if (error.response && error.response.status === 401) HandleUnauthorized();
         throw new Error('Error adding new booking: ' + error);
     }
 }
@@ -51,7 +53,7 @@ export const getDamageTypes = async (): Promise<any> => {
     try {
         return await axios.get(URL, { headers: authHeader() });
     } catch (error: any) {
-        if (error.response && error.response.status === 401) handleUnauthorized();
+        if (error.response && error.response.status === 401) HandleUnauthorized();
         throw new Error("Error getting damage types: " + error);
     }
 }

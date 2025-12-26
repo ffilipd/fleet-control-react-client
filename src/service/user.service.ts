@@ -1,6 +1,7 @@
 import axios, { AxiosError, AxiosRequestConfig } from "axios"
 import { FMProfile, LoginCredentials, NewUser, Profile } from "../interfaces";
 import authHeader from "./auth-header";
+import { useNavigate } from "react-router-dom";
 
 
 const base_URL: string = process.env.REACT_APP_API_URL || '';
@@ -12,9 +13,10 @@ const API_ENDPOINTS = {
     USERS_ID: (id: string) => `${API_ENDPOINTS.USERS}/${id}`
 }
 
-const handleUnauthorized = () => {
+const HandleUnauthorized = () => {
+    const navigate = useNavigate();
     localStorage.clear();
-    window.location.href = '/login';
+    navigate('/login');
 };
 
 export const signUp = async (signupform: NewUser) => {
@@ -64,7 +66,7 @@ export const updateUserProfile = async (profile: Partial<FMProfile>): Promise<an
         const response = await axios(request);
         return response.data as FMProfile;
     } catch (error: any) {
-        if (error.response && error.response.status === 401) handleUnauthorized();
+        if (error.response && error.response.status === 401) HandleUnauthorized();
         if (error instanceof AxiosError && error.response && error.response.status === 400) {
             throw new Error(error.response.data.message);
         } else if (error instanceof Error) {
@@ -83,7 +85,7 @@ export const getUserById = async (userId: string): Promise<FMProfile> => {
         const res = await axios.get(URL, { headers: authHeader() });
         return res.data as FMProfile;
     } catch (error: any) {
-        if (error.response && error.response.status === 401) handleUnauthorized();
+        if (error.response && error.response.status === 401) HandleUnauthorized();
         throw new Error('Error getting user by id');
     }
 }
@@ -94,7 +96,7 @@ export const getAllUsers = async (): Promise<FMProfile[]> => {
         const res = await axios.get(URL, { headers: authHeader() });
         return res.data as FMProfile[];
     } catch (error: any) {
-        if (error.response && error.response.status === 401) handleUnauthorized();
+        if (error.response && error.response.status === 401) HandleUnauthorized();
         throw new Error('Error getting user by id');
     }
 }
@@ -105,7 +107,7 @@ export const deleteUser = async (userId: keyof FMProfile): Promise<any> => {
         const res = await axios.delete(`${URL}/${userId}`, { headers: authHeader() })
         return res.data.message;
     } catch (error: any) {
-        if (error.response && error.response.status === 401) handleUnauthorized();
+        if (error.response && error.response.status === 401) HandleUnauthorized();
         throw new Error('Error deleting booking: ' + error)
     }
 }
