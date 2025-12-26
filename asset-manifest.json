@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/fleet-control-react-client/static/css/main.0a412dfb.css",
-    "main.js": "/fleet-control-react-client/static/js/main.37d1919d.js",
+    "main.js": "/fleet-control-react-client/static/js/main.c0ca7d01.js",
     "index.html": "/fleet-control-react-client/index.html",
     "main.0a412dfb.css.map": "/fleet-control-react-client/static/css/main.0a412dfb.css.map",
-    "main.37d1919d.js.map": "/fleet-control-react-client/static/js/main.37d1919d.js.map"
+    "main.c0ca7d01.js.map": "/fleet-control-react-client/static/js/main.c0ca7d01.js.map"
   },
   "entrypoints": [
     "static/css/main.0a412dfb.css",
-    "static/js/main.37d1919d.js"
+    "static/js/main.c0ca7d01.js"
   ]
 }
