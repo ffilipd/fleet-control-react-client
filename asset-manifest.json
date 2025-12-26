@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/fleet-control-react-client/static/css/main.0a412dfb.css",
+    "main.js": "/fleet-control-react-client/static/js/main.e80b1ad7.js",
+    "index.html": "/fleet-control-react-client/index.html",
+    "main.0a412dfb.css.map": "/fleet-control-react-client/static/css/main.0a412dfb.css.map",
+    "main.e80b1ad7.js.map": "/fleet-control-react-client/static/js/main.e80b1ad7.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.0a412dfb.css",
+    "static/js/main.e80b1ad7.js"
+  ]
+}
