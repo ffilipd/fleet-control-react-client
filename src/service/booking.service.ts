@@ -9,7 +9,7 @@ const API_ENDPOINTS = {
 
 const handleUnauthorized = () => {
     localStorage.clear();
-    window.location.href = '/login';
+    window.location.href = '#/login';
 };
 
 export const getBookings = async (_params?: BookingSearchParams): Promise<Booking[]> => {

@@ -13,6 +13,6 @@ function resetInactivityTimeout() {
     clearTimeout((window as any).inactivityTimeout);
     (window as any).inactivityTimeout = setTimeout(() => {
         localStorage.clear();
-        window.location.href = '/login';
+        window.location.href = '#/login';
     }, 3600000); // 1 hour in milliseconds
 }

@@ -10,7 +10,7 @@ const API_ENDPONTS = {
 
 const handleUnauthorized = () => {
     localStorage.clear();
-    window.location.href = '/login';
+    window.location.href = '#/login';
 };
 
 export const getReports = async (_params?: ReportSearchParams): Promise<Report[]> => {
