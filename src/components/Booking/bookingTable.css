@@ -1,0 +1,28 @@
+#table-wrapper {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    margin: 0 0 0 20px;
+    min-width: 510px;
+}
+
+#table-header {
+    font-weight: 600;
+}
+
+#table-content {
+    border: 1px solid var(--color-white);
+    box-shadow: 1px 1px var(--color-white);
+    border-radius: 8px;
+}
+
+@media only screen and (max-width:600px) {
+    #table-wrapper {
+        max-width: 320px;
+        min-width: 0;
+        width: 100vw;
+        padding:20px;
+        margin: 0;
+        justify-content: center;
+    }
+}

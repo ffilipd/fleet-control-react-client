@@ -1,0 +1,121 @@
+#booking-header {
+    display: flex;
+    flex-wrap: nowrap;
+    width: 100%;
+    color: var(--color-theme-dark);
+    font-size: xx-large;
+    font-weight: 600;
+    padding-bottom: 10px;
+}
+
+#booking-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 20px 0 0 0;
+    max-height: max-content;
+    overflow-y: auto;
+}
+
+#booking-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 320px;
+}
+
+#calendar-box {
+    display: flex;
+    flex-direction: column;
+}
+
+#calendar-box .MuiDateCalendar-root {
+    width: 100%;
+    border: 1px solid var(--color-white);
+    border-radius: 8px;
+    box-shadow: 1px 1px var(--color-white);
+    margin: 0 0 20px 0;
+}
+
+/* DATE PICKER FOR MOBILE */
+#calendar-box .MuiFormControl-root {
+    width: 100%;
+    border: 1px solid var(--color-white);
+    border-radius: 8px;
+    box-shadow: 1px 1px var(--color-white);
+}
+
+#select-box {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+#select-box .booking-select-button {
+    border: 1px solid var(--color-white);
+    box-shadow: 1px 1px var(--color-white);
+    border-radius: 8px;
+}
+
+#select-box .booking-select-item {
+    margin: 0 0 16px 0;
+}
+
+#book-button {
+    margin: 20px 0;
+    width: 100%;
+}
+
+.detail-book-button {
+    margin: 0 0 10px 0;
+}
+
+#disabled-button {
+    border: 1px solid var(--color-disabled-border);
+    background-color: var(--color-disabled);
+    margin: 20px 0;
+    width: 100%;
+}
+
+#clear-selections-button {
+    margin: 20px 0;
+    border: 1px solid var(--color-disabled-border);
+    border-radius: 8px;
+    color: var(--color-disabled-button);
+}
+
+#time-picker {
+    margin: 16px 0 16px 0;
+    display: flex;
+    flex-direction: row;
+}
+
+#time-picker .MuiInputBase-root {
+    box-shadow: 1px 1px var(--color-white);
+    border-radius: 8px;
+}
+
+@media only screen and (max-width:600px) {
+    #booking-root {
+        margin: 0;
+    }
+
+    #booking-wrapper {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #select-box {
+        margin: 20px 0;
+    }
+
+    #calendar-box {
+        width: 100%;
+    }
+
+    #booking-container {
+        width: 100vw;
+        padding: 20px;
+        max-width: 320px;
+    }
+}

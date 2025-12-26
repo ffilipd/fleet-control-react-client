@@ -1,0 +1,77 @@
+#report-header {
+    display: flex;
+    flex-wrap: nowrap;
+    width: 100%;
+    color: var(--color-theme-dark);
+    font-size: xx-large;
+    font-weight: 600;
+    padding-bottom: 10px;
+}
+
+#report-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 20px 0 0 0;
+}
+
+#report-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 320px;
+}
+
+#your-booking-select {
+    margin: 0 0 16px 0;
+}
+
+#report-container .report-select-item {
+    margin: 20px 0 0 0;
+}
+
+#report-container .report-select-button {
+}
+
+#report-booking-input {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+}
+
+#report-booking-item {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+}
+
+#submit-report-button {
+    margin: 20px 0;
+    width: 100%;
+}
+
+#submit-disabled-button {
+    border: 1px solid var(--color-disabled-border);
+    background-color: var(--color-disabled);
+    margin: 20px 0;
+    width: 100%;
+}
+
+@media only screen and (max-width:600px) {
+    #report-root {
+        margin: 0;
+    }
+
+    #report-wrapper {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #report-container {
+        width: 100vw;
+        padding: 20px;
+        max-width: 320px;
+    }
+}

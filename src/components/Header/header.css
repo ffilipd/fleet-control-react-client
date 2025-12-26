@@ -1,0 +1,74 @@
+#header-wrapper {
+    display: flex;
+    flex-direction: row;
+    min-height: 90px;
+    background-color: var(--color-theme-dark);
+    width: 100%;
+    align-items: flex-start;
+    position: fixed;
+    z-index: 10;
+    border-bottom: 2px solid #fff;
+    padding: 10px 0 0 10px;
+}
+
+#fm-logo{
+    padding: 10px;
+}
+
+#header-and-buttongroup {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-content: space-between;
+}
+
+#header-and-buttongroup .login-header-btn, #header-and-buttongroup .login-header-btn:hover {
+    display: flex;
+    border: none;
+    color: #fff;
+    font: inherit;
+    padding: 8px;
+    text-transform: none;
+    flex-wrap: nowrap;
+}
+
+#language-button{
+    padding: 8px 32px 8px 0px ;
+    margin-left: -16px;
+    font-family: 'Oxanium', sans-serif;
+}
+
+#drawer .MuiDrawer-paperAnchorTop {
+        background-color: var(--color-theme-dark);
+        color:#fff
+}
+
+#language-collapse {
+    background-color: var(--color-theme-dark2);
+}
+
+#right-button-group{
+    margin-right: 10px;
+}
+
+@media screen and (max-width: 1200px) {
+}
+@media screen and (max-width: 1000px) {
+}
+@media screen and (max-width: 800px) {
+
+}
+@media only screen and (max-width: 600px) {
+    #button-group {
+        padding: 0 10px;
+    }
+    #header-text {
+        align-self: center;
+    }
+    #header-wrapper {
+        align-items: center;
+    }
+    #hss-logo {
+        display: none;
+    }
+}

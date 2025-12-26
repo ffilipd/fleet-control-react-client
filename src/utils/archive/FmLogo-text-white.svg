@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg viewBox="-254.7654 50.955 223.1299 336.8491" width="223.13" height="336.849" xmlns="http://www.w3.org/2000/svg" xmlns:bx="https://boxy-svg.com">
+  <defs>
+    <style bx:fonts="Megrim">@import url(https://fonts.googleapis.com/css2?family=Megrim%3Aital%2Cwght%400%2C400&amp;display=swap);</style>
+  </defs>
+  <path style="fill: rgb(255, 255, 255); stroke: rgba(16, 68, 98, 0);" d="M -140.328 50.955 C -141.969 51.805 -156.121 50.494 -159.745 52.547 C -171.915 59.443 -200.51 140.763 -254.497 337.019 C -260.287 343.045 -170.805 347.922 -140.513 337.334 L -140.328 50.955 Z"/>
+  <path style="fill: rgb(255, 255, 255); stroke: rgba(16, 68, 98, 0);" d="M -134.773 108.578 L -31.797 348.627 C -44.056 351.627 -99.646 356.88 -133.773 336.061 L -134.773 108.578 Z"/>
+  <text style="fill: rgb(255, 255, 255); font-family: Megrim; font-size: 33px; stroke: rgb(255, 255, 255); white-space: pre;" x="-253.014" y="380.804">Fleet Control<tspan x="-253.01400756835938" dy="1em">​</tspan></text>
+</svg>

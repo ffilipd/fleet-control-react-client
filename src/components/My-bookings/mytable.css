@@ -1,0 +1,49 @@
+#my-page-table-wrapper {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    min-width: 510px;
+    flex-grow: 1;
+    overflow: hidden;
+    margin-bottom:50px ;
+    /* min-height: calc(100vh - 290px); */
+    border-radius: 8px;
+    border: 1px solid var(--color-white);
+    box-shadow: 1px 1px var(--color-white);
+}
+
+#my-table-header {
+    font-weight: 600;
+}
+
+#my-table-body {
+    overflow-y: auto;
+}
+
+.my-page-icon-button {
+    cursor: pointer;
+}
+
+.damage-description-cell{
+    cursor: pointer;
+    max-width: 200px;
+}
+.damage-description-cell:hover{
+    opacity: 50%;
+}
+
+#my-table-pagination{
+    border-top: 2px solid var(--color-white);
+}
+
+@media only screen and (max-width:600px) {
+    #table-wrapper {
+        max-width: 320px;
+        min-width: 0;
+        width: 100vw;
+        padding:20px;
+        margin: 0;
+        justify-content: center;
+        overflow-y: visible;
+    }
+}

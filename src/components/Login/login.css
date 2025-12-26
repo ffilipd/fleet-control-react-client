@@ -1,0 +1,44 @@
+#login-header {
+    display: flex;
+    flex-wrap: nowrap;
+    width: 100%;
+    color: var(--color-theme-dark);
+    font-size: xx-large;
+    font-weight: 600;
+    padding-bottom: 10px;
+}
+
+#login-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 20px 0 0 0;
+}
+
+#login-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 20vh 0;
+}
+#login-container .MuiFormControl-root {
+    margin: 8px 0;
+}
+
+#login-container .MuiButtonBase-root {
+    margin: 8px 0;
+    font-size: 16px;
+}
+#login-button-text {
+    font-size: 16px;
+    padding-left: 18px;
+}
+
+@media only screen and (max-width: 600px) {
+    #login-container .MuiTypography-root {
+        font-size: 16px;
+    }
+    #login-root {
+        margin: 0;
+    }
+}
