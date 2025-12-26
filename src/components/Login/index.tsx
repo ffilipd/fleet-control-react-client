@@ -16,8 +16,8 @@ const LoginComponent = () => {
   const navigate = useNavigate();
 
   const [credentials, setCredentials] = useState<LoginCredentials>({
-    name: "admin@fleetmad.com",
-    password: "admin",
+    name: "",
+    password: "",
   });
 
   const handleCredentialLoginClick = () => {
