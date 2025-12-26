@@ -22,7 +22,7 @@ root.render(
     <UserProvider>
       <EquipmentProvider>
         <LanguageProvider>
-          <Router basename="/fleet-control-react-client">
+          <Router>
             <I18nextProvider i18n={i18n} defaultNS={"translation"}>
               {/* <React.StrictMode> */}
               <AlertProvider>
