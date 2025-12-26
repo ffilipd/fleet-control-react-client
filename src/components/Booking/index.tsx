@@ -61,8 +61,8 @@ const BookingComponent = () => {
     fromTime: Dayjs | null;
     toTime: Dayjs | null;
   }>({
-    fromTime: roundedTime(dayjs().add(0, "hour")),
-    toTime: roundedTime(dayjs().add(1, "hour")),
+    fromTime: null,
+    toTime: null,
   });
 
   const [selectedEquipment, setSelectedEquipment] = useState<{

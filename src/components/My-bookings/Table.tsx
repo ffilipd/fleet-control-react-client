@@ -162,6 +162,7 @@ const MyTable = (props: BookingsProps) => {
                     </StyledTableCell>
                     <StyledTableCell align="left">{t("From")}</StyledTableCell>
                     <StyledTableCell align="left">{t("To")}</StyledTableCell>
+                    <StyledTableCell align="left">{t("User")}</StyledTableCell>
                     <StyledTableCell />
                     <StyledTableCell
                       style={{ borderLeft: "3px solid white" }}
@@ -268,6 +269,9 @@ const MyTable = (props: BookingsProps) => {
                                         <StyledTableCell align="left">
                                           {row.time_to}
                                         </StyledTableCell>
+                                        <StyledTableCell align="left">
+                                          {row.user_name}
+                                        </StyledTableCell>
                                         <StyledTableCell align="right">
                                           <EditOutlinedIcon />
                                         </StyledTableCell>
@@ -310,6 +314,9 @@ const MyTable = (props: BookingsProps) => {
                       </StyledTableCell>
                       <StyledTableCell align="left">
                         {row.time_to}
+                      </StyledTableCell>
+                      <StyledTableCell align="left">
+                        {row.user_name}
                       </StyledTableCell>
                       <StyledTableCell>
                         {(isInPast(row.date ?? "") && row.damage_type === "") ||
