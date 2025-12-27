@@ -85,6 +85,10 @@
     border-radius: 8px;
 }
 
+.free-search-input fieldset {
+    border: none;
+}
+
 @media only screen and (max-width:600px) {
     #my-page-root{
         margin:0;

@@ -13,6 +13,7 @@ import {
   Modal,
   Select,
   SelectChangeEvent,
+  TextField,
   Typography,
 } from "@mui/material";
 import { useTranslation } from "react-i18next";
@@ -39,6 +40,19 @@ import { FmButton2 } from "../../utils/buttons";
 import MyTable from "./Table";
 import { Booking, NewBooking } from "../../interfaces";
 import { useUser } from "../../UserContext";
+
+const uniqueItems = (
+  bookings: Booking[],
+  key: keyof Booking
+): (keyof Booking)[] => {
+  const items: (keyof Booking)[] = bookings
+    .map((b) => b[key])
+    .filter(Boolean) as unknown as (keyof Booking)[];
+  return items.reduce((acc: (keyof Booking)[], item: keyof Booking) => {
+    if (!acc.includes(item)) acc.push(item);
+    return acc.sort();
+  }, []);
+};
 
 dayjs.extend(customParseFormat);
 const roundedTime = (time: Dayjs): Dayjs => {
@@ -81,6 +95,24 @@ const MyBookingsComponent = () => {
     types: [],
     names: [],
     identifiers: [],
+  });
+
+  const [reportFilter, setReportFilter] = useState<{
+    dateFrom: string;
+    dateTo: string;
+    equipmentName: string;
+    identifier: string; // Number
+    userName: string;
+    reported: boolean;
+    damageType: string;
+  }>({
+    dateFrom: "",
+    dateTo: "",
+    equipmentName: "",
+    identifier: "",
+    userName: "",
+    reported: false,
+    damageType: "",
   });
 
   const [bookings, setBookings] = useState<Booking[]>([]);
@@ -189,19 +221,6 @@ const MyBookingsComponent = () => {
     }
   };
 
-  const bookingFilledOut = (): boolean => {
-    if (
-      selectedDate &&
-      selectedTime.fromTime &&
-      selectedTime.toTime &&
-      selectedEquipment.type &&
-      selectedEquipment.equipmentNameId &&
-      selectedEquipment.identifier
-    )
-      return true;
-    return false;
-  };
-
   useEffect(() => {
     fetchBookings();
   }, [selectedDate, selectedEquipment, selectedTime]);
@@ -249,7 +268,225 @@ const MyBookingsComponent = () => {
   return (
     <>
       <Box id="my-page-header">{t("My bookings and reports")}</Box>
-      {/* <Divider /> */}
+      <Divider />
+      <Box
+        sx={{
+          padding: "15px 0",
+          display: "flex",
+          flexDirection: "row",
+          gap: "20px",
+          alignItems: "center",
+        }}
+      >
+        <InputLabel sx={{ fontSize: "1.2em" }}>{t("Filter: ")}</InputLabel>
+        <TextField
+          className="free-search-input"
+          sx={{
+            margin: "15px 0",
+            borderRadius: "20px",
+            border: "1px solid var(--color-secondary-gray)",
+            padding: "2px 0 0 10px",
+            boxShadow: "1px 2px 2px var(--color-secondary-gray)",
+          }}
+          size="small"
+          placeholder={t("Free Search...")}
+          variant="outlined"
+        />
+      </Box>
+
+      <Box
+        id="equipment-filter-element"
+        sx={{
+          display: "grid",
+          flexDirection: "row",
+          gridTemplateColumns: "1fr 1fr 1fr 1fr",
+          marginBottom: "15px",
+          justifyContent: "center",
+          alignItems: "center",
+          gap: "10px",
+        }}
+      >
+        <FormControl variant="standard" className="type-filter-form">
+          <InputLabel htmlFor="type-filter" sx={{ padding: "2px 0 0 10px" }}>
+            {t("Date From")}
+          </InputLabel>
+          <Select
+            sx={{
+              borderRadius: "20px",
+              border: "1px solid var(--color-secondary-gray)",
+              padding: "2px 0 0 10px",
+              boxShadow: "1px 2px 2px var(--color-secondary-gray)",
+            }}
+            labelId="type-filter"
+            id="type-filter-select"
+            multiple
+            disableUnderline
+            value={reportFilter.dateFrom ? reportFilter.dateFrom : []}
+            // onChange={(e) => handleFilterSelect(e, "dateFrom")}
+          >
+            {uniqueItems(bookings, "date").map((date, index) => (
+              <MenuItem key={`date-from-${date}-${index}`} value={date}>
+                {date}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+        <FormControl variant="standard" className="type-filter-form">
+          <InputLabel htmlFor="type-filter" sx={{ padding: "2px 0 0 10px" }}>
+            {t("Date To")}
+          </InputLabel>
+          <Select
+            sx={{
+              borderRadius: "20px",
+              border: "1px solid var(--color-secondary-gray)",
+              padding: "2px 0 0 10px",
+              boxShadow: "1px 2px 2px var(--color-secondary-gray)",
+            }}
+            labelId="type-filter"
+            id="type-filter-select"
+            multiple
+            disableUnderline
+            value={reportFilter.dateTo ? reportFilter.dateTo : []}
+            // onChange={(e) => handleFilterSelect(e, "type")}
+          >
+            {uniqueItems(bookings, "date").map((date, index) => (
+              <MenuItem key={`date-to-${date}-${index}`} value={date}>
+                {date}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+        <FormControl variant="standard" className="type-filter-form">
+          <InputLabel htmlFor="type-filter" sx={{ padding: "2px 0 0 10px" }}>
+            {t("Name")}
+          </InputLabel>
+          <Select
+            sx={{
+              borderRadius: "20px",
+              border: "1px solid var(--color-secondary-gray)",
+              padding: "2px 0 0 10px",
+              boxShadow: "1px 2px 2px var(--color-secondary-gray)",
+            }}
+            labelId="type-filter"
+            id="type-filter-select"
+            multiple
+            disableUnderline
+            value={reportFilter.equipmentName ? reportFilter.equipmentName : []}
+            // onChange={(e) => handleFilterSelect(e, "type")}
+          >
+            {uniqueItems(bookings, "equipment_name").map((name, index) => (
+              <MenuItem key={`equipment-${name}-${index}`} value={name}>
+                {name}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+        <FormControl variant="standard" className="name-filter-form">
+          <InputLabel htmlFor="name-filter" sx={{ padding: "2px 0 0 10px" }}>
+            {t("Number")}
+          </InputLabel>
+          <Select
+            sx={{
+              borderRadius: "20px",
+              border: "1px solid var(--color-secondary-gray)",
+              padding: "2px 0 0 10px",
+              boxShadow: "1px 2px 2px var(--color-secondary-gray)",
+            }}
+            disableUnderline
+            labelId="name-filter"
+            id="name-filter-select"
+            multiple
+            value={reportFilter.identifier ? reportFilter.identifier : []}
+            // onChange={(e) => handleFilterSelect(e, "name")}
+          >
+            {uniqueItems(bookings, "equipment_identifier").map(
+              (number, index) => (
+                <MenuItem key={`identifier-${number}-${index}`} value={number}>
+                  {number}
+                </MenuItem>
+              )
+            )}
+          </Select>
+        </FormControl>
+        <FormControl variant="standard" className="name-filter-form">
+          <InputLabel htmlFor="name-filter" sx={{ padding: "2px 0 0 10px" }}>
+            {t("User")}
+          </InputLabel>
+          <Select
+            sx={{
+              borderRadius: "20px",
+              border: "1px solid var(--color-secondary-gray)",
+              padding: "2px 0 0 10px",
+              boxShadow: "1px 2px 2px var(--color-secondary-gray)",
+            }}
+            disableUnderline
+            labelId="name-filter"
+            id="name-filter-select"
+            multiple
+            value={reportFilter.userName ? reportFilter.userName : []}
+            // onChange={(e) => handleFilterSelect(e, "name")}
+          >
+            {uniqueItems(bookings, "user_name").map((name, index) => (
+              <MenuItem key={`user-${name}-${index}`} value={name}>
+                {name}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+
+        <FormControl variant="standard" className="type-filter-form">
+          <InputLabel htmlFor="type-filter" sx={{ padding: "2px 0 0 10px" }}>
+            {t("Report")}
+          </InputLabel>
+          <Select
+            sx={{
+              borderRadius: "20px",
+              border: "1px solid var(--color-secondary-gray)",
+              padding: "2px 0 0 10px",
+              boxShadow: "1px 2px 2px var(--color-secondary-gray)",
+            }}
+            labelId="type-filter"
+            id="type-filter-select"
+            multiple
+            disableUnderline
+            value={reportFilter.reported ? reportFilter.reported : []}
+            // onChange={(e) => handleFilterSelect(e, "type")}
+          >
+            <MenuItem key={"Reported"} value={"Reported"}>
+              {"Reported"}
+            </MenuItem>
+            <MenuItem key={"Empty"} value={"Empty"}>
+              {"Empty"}
+            </MenuItem>
+          </Select>
+        </FormControl>
+        <FormControl variant="standard" className="type-filter-form">
+          <InputLabel htmlFor="type-filter" sx={{ padding: "2px 0 0 10px" }}>
+            {t("Damage Type")}
+          </InputLabel>
+          <Select
+            sx={{
+              borderRadius: "20px",
+              border: "1px solid var(--color-secondary-gray)",
+              padding: "2px 0 0 10px",
+              boxShadow: "1px 2px 2px var(--color-secondary-gray)",
+            }}
+            labelId="type-filter"
+            id="type-filter-select"
+            multiple
+            disableUnderline
+            value={reportFilter.damageType ? reportFilter.damageType : []}
+            // onChange={(e) => handleFilterSelect(e, "type")}
+          >
+            {uniqueItems(bookings, "damage_type").map((type, index) => (
+              <MenuItem key={`${type}-${index}`} value={type}>
+                {type}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+      </Box>
+      <Divider />
       <Box id="my-page-wrapper">
         <MyTable
           handleCreateReportNow={handleCreateReportNow}
