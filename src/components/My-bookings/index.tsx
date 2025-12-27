@@ -1,4 +1,5 @@
 import {
+  Autocomplete,
   Box,
   Button,
   Dialog,
@@ -8,6 +9,7 @@ import {
   DialogTitle,
   Divider,
   FormControl,
+  Icon,
   InputLabel,
   MenuItem,
   Modal,
@@ -40,6 +42,9 @@ import { FmButton2 } from "../../utils/buttons";
 import MyTable from "./Table";
 import { Booking, NewBooking } from "../../interfaces";
 import { useUser } from "../../UserContext";
+import users from "../Admin/users/users";
+import { RiSearchLine } from "react-icons/ri";
+const SearchIcon = RiSearchLine as unknown as React.ComponentType;
 
 const uniqueItems = (
   bookings: Booking[],
@@ -97,7 +102,7 @@ const MyBookingsComponent = () => {
     identifiers: [],
   });
 
-  const [reportFilter, setReportFilter] = useState<{
+  const [bookingsFilter, setbookingsFilter] = useState<{
     dateFrom: string;
     dateTo: string;
     equipmentName: string;
@@ -146,33 +151,6 @@ const MyBookingsComponent = () => {
     setAvailableEquipment({ ...availableEquipment, types });
   };
 
-  const handleSetType = async (type: string) => {
-    setSelectedEquipment({
-      ...selectedEquipment,
-      type,
-      equipmentNameId: "",
-      identifier: "",
-    });
-    const names = (await getFilters({ type })) as {
-      id: string;
-      name: string;
-    }[];
-    setAvailableEquipment({ ...availableEquipment, names });
-  };
-
-  const handleSetName = async (equipmentNameId: string) => {
-    setSelectedEquipment({
-      ...selectedEquipment,
-      equipmentNameId,
-      identifier: "",
-    });
-    const equipment = (await getFilters({
-      type: selectedEquipment.type,
-      equipmentNameId: equipmentNameId,
-    })) as { id: string; identifier: string }[];
-    setAvailableEquipment({ ...availableEquipment, identifiers: equipment });
-  };
-
   const fetchBookings = async () => {
     if (!user) return;
     const bookingsData: Booking[] = await getBookings({
@@ -186,39 +164,6 @@ const MyBookingsComponent = () => {
       usage: "edit",
     });
     setBookings(bookingsData);
-  };
-
-  const handleClearSelections = (): void => {
-    setSelectedEquipment({ equipmentNameId: "", type: "", identifier: "" });
-    setSelectedTime({ ...selectedTime, fromTime: null, toTime: null });
-  };
-
-  const handleSetTimeFrom = (newTime: any) => {
-    setSelectedTime({ ...selectedTime, fromTime: newTime });
-  };
-  const handleSetTimeTo = (newTime: any) => {
-    setSelectedTime({ ...selectedTime, toTime: newTime });
-  };
-
-  const handleBookEquipmentClick = async () => {
-    const { type, equipmentNameId, identifier } = selectedEquipment;
-    const date = selectedDate?.format("DD-MM-YYYY").toString();
-    const { fromTime, toTime } = selectedTime;
-    const newBooking: NewBooking = {
-      date,
-      time_from: fromTime?.format("HH:mm").toString(),
-      time_to: toTime?.format("HH:mm").toString(),
-      userId: user?.id,
-      equipmentId: identifier,
-    };
-    try {
-      const res = await addBooking(newBooking);
-      alert(res);
-      fetchBookings();
-      setSelectedEquipment({ ...selectedEquipment, identifier: "" });
-    } catch (error) {
-      console.error(error);
-    }
   };
 
   useEffect(() => {
@@ -265,6 +210,15 @@ const MyBookingsComponent = () => {
     console.log(bookingId);
   };
 
+  const onFreeSearch = (value: string | null) => {
+    // const results = users.filter(
+    //   (user) =>
+    //     user.name.toLowerCase().includes(value?.toLowerCase() ?? "") ||
+    //     user.email.toLowerCase().includes(value?.toLowerCase() ?? "")
+    // );
+    // setFilteredUsers(results);
+  };
+
   return (
     <>
       <Box id="my-page-header">{t("My bookings and reports")}</Box>
@@ -279,19 +233,51 @@ const MyBookingsComponent = () => {
         }}
       >
         <InputLabel sx={{ fontSize: "1.2em" }}>{t("Filter: ")}</InputLabel>
-        <TextField
-          className="free-search-input"
-          sx={{
-            margin: "15px 0",
-            borderRadius: "20px",
-            border: "1px solid var(--color-secondary-gray)",
-            padding: "2px 0 0 10px",
-            boxShadow: "1px 2px 2px var(--color-secondary-gray)",
-          }}
-          size="small"
-          placeholder={t("Free Search...")}
-          variant="outlined"
-        />
+        <FormControl
+          variant="standard"
+          className="booking-filter-search"
+          sx={{ flexGrow: 1, paddingRight: "10px" }}
+        >
+          <Autocomplete
+            freeSolo
+            options={uniqueItems(bookings, "user_name")
+              .concat(uniqueItems(bookings, "damage_type"))
+              .concat(uniqueItems(bookings, "equipment_name"))
+              .sort()}
+            autoSelect
+            // onChange={(e, value) => onFreeSearch(value)}
+            renderInput={(params) => (
+              <>
+                <TextField
+                  sx={{
+                    borderRadius: "20px",
+                    border: "1px solid var(--color-secondary-gray)",
+                    padding: "2px 0 0 10px",
+                    boxShadow: "1px 2px 2px var(--color-secondary-gray)",
+                    width: "100%",
+                  }}
+                  {...params}
+                  // label={"Free search..."}
+                  variant="standard"
+                  InputProps={{
+                    ...params.InputProps,
+                    disableUnderline: true,
+                    type: "search",
+                    placeholder: "Free search...",
+                    startAdornment: (
+                      <Icon
+                        color="action"
+                        sx={{ marginLeft: "0", marginRight: "5px" }}
+                      >
+                        <SearchIcon />
+                      </Icon>
+                    ),
+                  }}
+                />
+              </>
+            )}
+          />
+        </FormControl>
       </Box>
 
       <Box
@@ -321,7 +307,7 @@ const MyBookingsComponent = () => {
             id="type-filter-select"
             multiple
             disableUnderline
-            value={reportFilter.dateFrom ? reportFilter.dateFrom : []}
+            value={bookingsFilter.dateFrom ? bookingsFilter.dateFrom : []}
             // onChange={(e) => handleFilterSelect(e, "dateFrom")}
           >
             {uniqueItems(bookings, "date").map((date, index) => (
@@ -346,7 +332,7 @@ const MyBookingsComponent = () => {
             id="type-filter-select"
             multiple
             disableUnderline
-            value={reportFilter.dateTo ? reportFilter.dateTo : []}
+            value={bookingsFilter.dateTo ? bookingsFilter.dateTo : []}
             // onChange={(e) => handleFilterSelect(e, "type")}
           >
             {uniqueItems(bookings, "date").map((date, index) => (
@@ -371,7 +357,9 @@ const MyBookingsComponent = () => {
             id="type-filter-select"
             multiple
             disableUnderline
-            value={reportFilter.equipmentName ? reportFilter.equipmentName : []}
+            value={
+              bookingsFilter.equipmentName ? bookingsFilter.equipmentName : []
+            }
             // onChange={(e) => handleFilterSelect(e, "type")}
           >
             {uniqueItems(bookings, "equipment_name").map((name, index) => (
@@ -396,7 +384,7 @@ const MyBookingsComponent = () => {
             labelId="name-filter"
             id="name-filter-select"
             multiple
-            value={reportFilter.identifier ? reportFilter.identifier : []}
+            value={bookingsFilter.identifier ? bookingsFilter.identifier : []}
             // onChange={(e) => handleFilterSelect(e, "name")}
           >
             {uniqueItems(bookings, "equipment_identifier").map(
@@ -423,7 +411,7 @@ const MyBookingsComponent = () => {
             labelId="name-filter"
             id="name-filter-select"
             multiple
-            value={reportFilter.userName ? reportFilter.userName : []}
+            value={bookingsFilter.userName ? bookingsFilter.userName : []}
             // onChange={(e) => handleFilterSelect(e, "name")}
           >
             {uniqueItems(bookings, "user_name").map((name, index) => (
@@ -449,7 +437,7 @@ const MyBookingsComponent = () => {
             id="type-filter-select"
             multiple
             disableUnderline
-            value={reportFilter.reported ? reportFilter.reported : []}
+            value={bookingsFilter.reported ? bookingsFilter.reported : []}
             // onChange={(e) => handleFilterSelect(e, "type")}
           >
             <MenuItem key={"Reported"} value={"Reported"}>
@@ -475,7 +463,7 @@ const MyBookingsComponent = () => {
             id="type-filter-select"
             multiple
             disableUnderline
-            value={reportFilter.damageType ? reportFilter.damageType : []}
+            value={bookingsFilter.damageType ? bookingsFilter.damageType : []}
             // onChange={(e) => handleFilterSelect(e, "type")}
           >
             {uniqueItems(bookings, "damage_type").map((type, index) => (
