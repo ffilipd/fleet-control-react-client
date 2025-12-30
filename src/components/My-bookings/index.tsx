@@ -42,6 +42,7 @@ import { FmButton2 } from "../../utils/buttons";
 import MyTable from "./Table";
 import { Booking, NewBooking } from "../../interfaces";
 import { useUser } from "../../UserContext";
+import { useEquipment } from "../../EquipmentContext";
 import users from "../Admin/users/users";
 import { RiSearchLine } from "react-icons/ri";
 const SearchIcon = RiSearchLine as unknown as React.ComponentType;
@@ -69,6 +70,11 @@ const roundedTime = (time: Dayjs): Dayjs => {
 const MyBookingsComponent = () => {
   const { t } = useTranslation();
   const { user } = useUser();
+  const {
+    equipmentNames,
+    equipmentTypes,
+    // equipmentIdentifiers
+  } = useEquipment();
   // const equipmentTypes = getEquipmentTypes();
   const labels = {
     equipment: {
@@ -105,6 +111,7 @@ const MyBookingsComponent = () => {
   const [bookingsFilter, setbookingsFilter] = useState<{
     dateFrom: string;
     dateTo: string;
+    equipmentType: string;
     equipmentName: string;
     identifier: string; // Number
     userName: string;
@@ -113,6 +120,7 @@ const MyBookingsComponent = () => {
   }>({
     dateFrom: "",
     dateTo: "",
+    equipmentType: "",
     equipmentName: "",
     identifier: "",
     userName: "",
@@ -344,6 +352,38 @@ const MyBookingsComponent = () => {
         </FormControl>
         <FormControl variant="standard" className="type-filter-form">
           <InputLabel htmlFor="type-filter" sx={{ padding: "2px 0 0 10px" }}>
+            {t("Type")}
+          </InputLabel>
+          <Select
+            sx={{
+              borderRadius: "20px",
+              border: "1px solid var(--color-secondary-gray)",
+              padding: "2px 0 0 10px",
+              boxShadow: "1px 2px 2px var(--color-secondary-gray)",
+            }}
+            labelId="type-filter"
+            id="type-filter-select"
+            multiple
+            disableUnderline
+            value={
+              bookingsFilter.equipmentType ? bookingsFilter.equipmentType : []
+            }
+            // onChange={(e) => handleFilterSelect(e, "type")}
+          >
+            {/* {uniqueItems(bookings, "equipment_name").map((name, index) => (
+              <MenuItem key={`equipment-${name}-${index}`} value={name}>
+                {name}
+              </MenuItem>
+            ))} */}
+            {equipmentTypes.map((name, index) => (
+              <MenuItem key={`equipment-${name}-${index}`} value={name}>
+                {name}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+        <FormControl variant="standard" className="type-filter-form">
+          <InputLabel htmlFor="type-filter" sx={{ padding: "2px 0 0 10px" }}>
             {t("Name")}
           </InputLabel>
           <Select
@@ -362,7 +402,12 @@ const MyBookingsComponent = () => {
             }
             // onChange={(e) => handleFilterSelect(e, "type")}
           >
-            {uniqueItems(bookings, "equipment_name").map((name, index) => (
+            {/* {uniqueItems(bookings, "equipment_name").map((name, index) => (
+              <MenuItem key={`equipment-${name}-${index}`} value={name}>
+                {name}
+              </MenuItem>
+            ))} */}
+            {equipmentNames.map((name, index) => (
               <MenuItem key={`equipment-${name}-${index}`} value={name}>
                 {name}
               </MenuItem>
