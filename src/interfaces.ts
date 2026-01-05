@@ -20,6 +20,7 @@ export interface Booking {
     user_name?: string;
     damage_type?: string;
     damage_description?: string;
+    report_id?: string;
 };
 
 export interface NewBooking {

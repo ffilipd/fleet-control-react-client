@@ -1,5 +1,5 @@
 import "./App.css";
-import { HashRouter, Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import Home from "./components/Home";
 import BookingComponent from "./components/Booking";
 import ReportComponent from "./components/Report";
